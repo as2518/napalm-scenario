@@ -1,0 +1,51 @@
+purpus:  |
+  本作業は、株式会社ABC(AS65002)が運用するルータと、
+  拠点Aでプライベートピアを構築することを目的としている。
+  経路交換は1経路ずつ受信/送信を行う予定であり、作業による
+  ネットワークの影響は軽微であることを想定している。
+operator: Taiji Tsuchiya
+operation_date: 20161115
+hosts:
+  management_ipaddress: 192.168.34.16
+  hostname: firefly1
+  model: firefly-perimeter
+  username: user1
+  password: password1
+scenario:
+  - test_hostname
+  - test_model
+  - test_interface:
+      interface_name: ge-0/0/2
+      interface_status: up
+  - set_add_interface:
+      interface_name: ge-0/0/2
+      interface_address_ipv4: 192.168.35.1
+      interface_subnet_ipv4: 30
+      interface_description: AS65002_peer
+  - test_interface:
+      interface_name: ge-0/0/2
+      interface_status: up
+  - set_add_bgp_neighbor:
+      interface_name: ge-0/0/2
+      neighbor_asnum: 65002
+      local_asnum: 65001
+      neighbor_address_ipv4: 192.168.35.2
+      neighbor_description: AS65002_peer
+  - test_bgp_neighbor:
+      neighbor_address_ipv4: 192.168.35.2
+      neighbor_status: Established
+  - set_add_bgp_policy_external:
+      external_policy_name: AS65002_export
+      advertised_route_address_ipv4: 10.10.10.0
+      advertised_route_subnet_ipv4: 24
+      interface_name: ge-0/0/2
+      neighbor_address_ipv4: 192.168.35.2
+  - sleep_10sec
+  - test_bgp_received_route:
+      neighbor_address_ipv4: 192.168.35.2
+      received_route_address_ipv4: 10.10.30.0
+      received_route_subnet_ipv4: 24
+  - test_bgp_advertised_route:
+      neighbor_address_ipv4: 192.168.35.2
+      advertised_route_address_ipv4: 10.10.10.0
+      advertised_route_subnet_ipv4: 24
