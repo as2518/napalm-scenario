@@ -11,58 +11,56 @@ from jinja2 import Template, Environment
 ## JSNAPy
 #from jnpr.jsnapy import SnapAdmin
 
+import napalm
+
 # arranged print
 from pprint import pprint, pformat
 
 
 class Router:
-    def __init__(self, hostname, model, ipaddress, username, password):
+    def __init__(self, hostname, model, os, ipaddress, username, password):
         self.hostname = hostname
         self.model = model
         self.username = username
         self.password = password
         self.ipaddress = ipaddress
-        #self.device = Device(host=ipaddress, user=username, password=password)
-        #self.snap = SnapAdmin()
+        self.os = os
+        self.driver = napalm.get_network_driver(self.os)
+        self.device = self.driver(hostname=ipaddress, username=username, password=password)
 
     def open(self):
-        #self.device.open()
-        #self.device.bind(cu=Config)
-        pass
+        self.device.open()
 
     def lock(self):
-        #self.device.cu.lock()
-        pass
+        # junos, IOSXR only
+        self.device.config_lock()
 
     def unlock(self):
+        # PyEZ function
         #self.device.cu.unlock()
         pass
 
     def close(self):
-        #self.device.close()
-        pass
+        self.device.close()
 
     def commit(self):
-        #return self.device.cu.commit()
-        pass
+        return self.device.commit_config()
 
     def rollback(self):
-        #return self.device.cu.rollback()
-        pass
+
+        self.device.discard_config()
 
     def diff_config(self):
-        #if self.device.cu.diff():
-        #    message = self.device.cu.diff()
-        #else:
-        #    message = ''
-        #return message
-        pass
+        return self.device.compare_config()
 
     def commit_check(self):
+        # PyEZ function
         #return self.device.cu.commit_check()
         pass
 
     def load_config(self, operation_name, operation_param=None):
+        # PyEZ function
+
         '''
         set_result = False
         message = ''
@@ -97,6 +95,8 @@ class Router:
         pass
 
     def nwtest(self, operation_name, operation_param=None):
+        # PyEZ function
+
         '''
         nwtest_result = False
         message = ''

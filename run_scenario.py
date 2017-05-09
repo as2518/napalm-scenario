@@ -47,6 +47,7 @@ def main():
     router1 = Router(
         hostname    = param['hosts']['hostname'],
         model       = param['hosts']['model'],
+        os          = param['hosts']['os'],
         ipaddress   = param['hosts']['management_ipaddress'],
         username    = param['hosts']['username'],
         password    = param['hosts']['password'])
@@ -150,4 +151,3 @@ def main():
 
 if __name__ == '__main__':
     main()
-

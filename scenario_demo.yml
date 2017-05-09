@@ -9,6 +9,7 @@ hosts:
   management_ipaddress: 192.168.34.16
   hostname: firefly1
   model: firefly-perimeter
+  os : junos
   username: user1
   password: password1
 scenario:
