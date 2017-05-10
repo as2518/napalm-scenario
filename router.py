@@ -31,15 +31,6 @@ class Router:
     def open(self):
         self.device.open()
 
-    def lock(self):
-        # junos, IOSXR only
-        self.device.config_lock()
-
-    def unlock(self):
-        # PyEZ function
-        #self.device.cu.unlock()
-        pass
-
     def close(self):
         self.device.close()
 

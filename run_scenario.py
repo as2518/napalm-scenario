@@ -65,10 +65,6 @@ def main():
     router1.open()
     print(Fore.GREEN + 'OK')
 
-    print('Lock configure mode : ', end='')
-    router1.lock()
-    print(Fore.GREEN + 'OK')
-
     for scenario_param in param['scenario']:
         if isinstance(scenario_param, dict):
             operation_name  = scenario_param.keys()[0]
@@ -138,10 +134,6 @@ def main():
 
         else:
             print('Cannnot run operation : ' + operation_name)
-
-    print('Unlock configure mode : ', end='')
-    router1.unlock()
-    print(Fore.GREEN + 'OK')
 
     print('Close the connection to ' + param['hosts']['hostname'] + ' : ', end='')
     router1.close()
