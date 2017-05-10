@@ -1,0 +1,14 @@
+protocols {
+    bgp {
+        family inet {
+            unicast;
+        }
+        group {{ interface_name }} {
+            type external;
+            neighbor {{ neighbor_address_ipv4 }} {
+                description {{ neighbor_description }};
+                peer-as {{ neighbor_asnum }};
+            }
+        }
+    }
+}
