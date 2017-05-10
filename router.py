@@ -4,13 +4,6 @@
 # Jinja2 Template Engine
 from jinja2 import Template, Environment
 
-## PyEZ
-#from jnpr.junos import Device
-#from jnpr.junos.utils.config import Config
-
-## JSNAPy
-#from jnpr.jsnapy import SnapAdmin
-
 import napalm
 
 # arranged print
@@ -37,8 +30,7 @@ class Router:
     def commit(self):
         return self.device.commit_config()
 
-    def rollback(self):
-
+    def discard_config(self):
         self.device.discard_config()
 
     def compare_config(self):

@@ -116,8 +116,8 @@ def main():
                 else:
                     print(Fore.RED + 'NG')
             else:
-                print('Rollback : ', end='')
-                if router1.rollback():
+                print('Discard config : ', end='')
+                if router1.discard_config():
                     print(Fore.GREEN + 'OK')
                 else:
                     print(Fore.RED + 'NG')
