@@ -240,7 +240,7 @@ class Router:
         with open(nwtest_filename, 'w') as f:
             f.write(nwtest_yml)
     '''
-        
+
     def generate_from_jinja2(self, template_filename, template_param):
         
         # read template file (jinja2 format)
