@@ -13,7 +13,7 @@ hosts:
   username: user1
   password: password1
 scenario:
-  - test_hostname
+  - check_hostname
   - test_model
   - test_interface:
       interface_name: ge-0/0/2

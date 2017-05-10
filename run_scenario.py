@@ -67,14 +67,26 @@ def main():
 
     for scenario_param in param['scenario']:
         if isinstance(scenario_param, dict):
-            print(scenario_param.keys())
             operation_name  = next(iter(scenario_param))
             operation_param = scenario_param[operation_name]
         else:
             operation_name = scenario_param
             operation_param = None
+        
+        if operation_name == 'check_hostname':
+            print('Check hostname  : ', end='')
+            result, message = router1.check_hostname()
+            
+            if result :
+                print(Fore.GREEN + 'OK')
+                print(Fore.GREEN + message)
+            else:
+                print(Fore.RED + 'NG')
+                print(Fore.RED + message)
 
-        if 'nwtest_' in operation_name:
+
+
+        elif 'nwtest_' in operation_name:
             print('Test on < %s > : ' % (operation_name), end='')
             result, message =\
                 router1.snaptest(operation_name, operation_param)

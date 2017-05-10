@@ -36,6 +36,14 @@ class Router:
     def compare_config(self):
         return self.device.compare_config()
 
+    def check_hostname(self):
+        hostname_fetched = self.device.get_facts()['hostname']
+
+        if hostname_fetched == self.hostname :
+            return True, hostname_fetched
+        else:
+            return False, hostname_fetched
+
     def load_config(self, operation_name, operation_param=None):
         # PyEZ function
 
