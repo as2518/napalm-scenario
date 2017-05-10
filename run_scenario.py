@@ -67,7 +67,8 @@ def main():
 
     for scenario_param in param['scenario']:
         if isinstance(scenario_param, dict):
-            operation_name  = scenario_param.keys()[0]
+            print(scenario_param.keys())
+            operation_name  = next(iter(scenario_param))
             operation_param = scenario_param[operation_name]
         else:
             operation_name = scenario_param
@@ -100,17 +101,11 @@ def main():
                 print(Fore.RED + 'NG')
                 print(Fore.RED + message)
 
-            print('Diff config :')
-            message = router1.diff_config()
+            print('Compare config :')
+            message = router1.compare_config()
             print('-'*30)
             print(Fore.YELLOW + message)
             print('-'*30)
-
-            print('Commit Check : ', end='')
-            if router1.commit_check():
-                print(Fore.GREEN + 'OK')
-            else:
-                print(Fore.RED + 'NG')
 
             print(Fore.YELLOW + "Do you commit? y/n")
             choice = raw_input().lower()

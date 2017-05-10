@@ -41,13 +41,8 @@ class Router:
 
         self.device.discard_config()
 
-    def diff_config(self):
+    def compare_config(self):
         return self.device.compare_config()
-
-    def commit_check(self):
-        # PyEZ function
-        #return self.device.cu.commit_check()
-        pass
 
     def load_config(self, operation_name, operation_param=None):
         # PyEZ function
