@@ -31,7 +31,7 @@ class Router:
         return self.device.commit_config()
 
     def discard_config(self):
-        self.device.discard_config()
+        return self.device.discard_config()
 
     def compare_config(self):
         return self.device.compare_config()
@@ -45,40 +45,39 @@ class Router:
             return False, hostname_fetched
 
     def load_config(self, operation_name, operation_param=None):
-        # PyEZ function
-
-        '''
-        set_result = False
+        result = False
         message = ''
+
         if operation_name == 'set_add_interface':
-            template_filename = './set_templates/add_interface.jinja2'
+            template_filename = './set_templates/' + self.os + '/add_interface.jinja2'
             tamplate_param = operation_param
+
         elif operation_name == 'set_add_bgp_neighbor':
-            template_filename = './set_templates/add_bgp_neighbor.jinja2'
+            template_filename = './set_templates/' + self.os + '/add_bgp_neighbor.jinja2'
             tamplate_param = operation_param
+
         elif operation_name == 'set_add_bgp_policy_external':
-            template_filename =\
-                './set_templates/add_bgp_policy_external.jinja2'
+            template_filename = './set_templates/' + self.os + '/add_bgp_policy_external.jinja2'
             tamplate_param = operation_param
+
         else:
             pass
 
+        # This is only brawsing for check candidate configuration before setting the router.
         config_txt = self.generate_from_jinja2(
             template_filename,
             tamplate_param)
 
-        self.device.cu.load(
-            template_path=template_filename,
-            template_vars=tamplate_param,
-            format="text",
-            merge=True)
+        self.device.load_merge_candidate(config=config_txt)
+        #TODO: you can use load_template() instead of load_merge_candidate().
+        #self.device.load_template
 
         message = config_txt
-        set_result = True
+        result = True
 
-        return set_result, message
-        '''
-        pass
+        return result, message
+
+
 
     def nwtest(self, operation_name, operation_param=None):
         # PyEZ function
@@ -233,21 +232,21 @@ class Router:
         '''
         pass
 
+    '''
     def generate_nwtestfile(self, template_filename, template_param, nwtest_filename):
-        '''
+        
         nwtest_yml = self.generate_from_jinja2(template_filename, template_param)
         # write nwtest file (YAML format)
         with open(nwtest_filename, 'w') as f:
             f.write(nwtest_yml)
-        '''
-        pass
+    '''
+        
     def generate_from_jinja2(self, template_filename, template_param):
-        '''
+        
         # read template file (jinja2 format)
         with open(template_filename, 'r') as f:
             template_jinja2 = f.read()
 
         # generate nwtest file from template file
         return Environment().from_string(template_jinja2).render(template_param)
-        '''
-        pass
+        

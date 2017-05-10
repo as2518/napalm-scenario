@@ -1,0 +1,20 @@
+purpus:  |
+  本作業は、株式会社ABC(AS65002)が運用するルータと、
+  拠点Aでプライベートピアを構築することを目的としている。
+  経路交換は1経路ずつ受信/送信を行う予定であり、作業による
+  ネットワークの影響は軽微であることを想定している。
+operator: Taiji Tsuchiya
+operation_date: 20161115
+hosts:
+  management_ipaddress: 192.168.34.16
+  hostname: firefly1
+  model: firefly-perimeter
+  os : junos
+  username: user1
+  password: password1
+scenario:
+  - set_add_interface:
+      interface_name: ge-0/0/2
+      interface_address_ipv4: 192.168.35.1
+      interface_subnet_ipv4: 30
+      interface_description: AS65002_peer

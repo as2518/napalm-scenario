@@ -76,7 +76,7 @@ def main():
         if operation_name == 'check_hostname':
             print('Check hostname  : ', end='')
             result, message = router1.check_hostname()
-            
+
             if result :
                 print(Fore.GREEN + 'OK')
                 print(Fore.GREEN + message)
@@ -84,19 +84,17 @@ def main():
                 print(Fore.RED + 'NG')
                 print(Fore.RED + message)
 
-
-
-        elif 'nwtest_' in operation_name:
-            print('Test on < %s > : ' % (operation_name), end='')
-            result, message =\
-                router1.snaptest(operation_name, operation_param)
-
-            if result:
-                print(Fore.GREEN + 'OK')
-                print(Fore.GREEN + message)
-            else:
-                print(Fore.RED + 'NG')
-                print(Fore.RED + message)
+        # For PyEZ
+        #elif 'nwtest_' in operation_name:
+        #    print('Test on < %s > : ' % (operation_name))
+        #    result, message = router1.snaptest(operation_name, operation_param)
+        # 
+        #    if result:
+        #        print(Fore.GREEN + 'OK')
+        #        print(Fore.GREEN + message)
+        #    else:
+        #        print(Fore.RED + 'NG')
+        #        print(Fore.RED + message)
 
         elif 'set_' in operation_name:
             print('Load config on < %s > : ' % (operation_name), end='')
@@ -120,7 +118,7 @@ def main():
             print('-'*30)
 
             print(Fore.YELLOW + "Do you commit? y/n")
-            choice = raw_input().lower()
+            choice = input().lower()
             if choice == 'y':
                 print('Commit : ', end='')
                 if router1.commit():
