@@ -84,17 +84,16 @@ def main():
                 print(Fore.RED + 'NG')
                 print(Fore.RED + message)
 
-        # For PyEZ
-        #elif 'nwtest_' in operation_name:
-        #    print('Test on < %s > : ' % (operation_name))
-        #    result, message = router1.snaptest(operation_name, operation_param)
-        # 
-        #    if result:
-        #        print(Fore.GREEN + 'OK')
-        #        print(Fore.GREEN + message)
-        #    else:
-        #        print(Fore.RED + 'NG')
-        #        print(Fore.RED + message)
+
+        elif 'validate' == operation_name:
+            print('Test on < %s > : ' % (operation_name))
+            result = router1.validate_operation(operation_name)
+            if result['complies']:
+                print(Fore.GREEN + 'OK')
+                #print(Fore.GREEN + result[])
+            else:
+                print(Fore.RED + 'NG')
+                #print(Fore.RED + message)
 
         elif 'set_' in operation_name:
             print('Load config on < %s > : ' % (operation_name), end='')

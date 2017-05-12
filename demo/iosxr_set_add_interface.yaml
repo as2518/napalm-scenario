@@ -12,9 +12,13 @@ hosts:
   os : iosxr
   username: user1
   password: password1
+
 scenario:
+  - validate:
+      interface_name: GigabitEthernet0/0/0/0
   - set_add_interface:
       interface_name: GigabitEthernet0/0/0/0
       interface_address_ipv4: 192.168.44.2
       interface_subnet_ipv4: 24
       interface_description: AS65002_peer
+  - validate:

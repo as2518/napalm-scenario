@@ -1,0 +1,10 @@
+---
+- get_facts:
+    os_version: 6.2.1.23I
+    hostname: iosxrv1
+- get_interfaces_ip:
+    GigabitEthernet0/0/0/0:
+      ipv4:
+        192.168.44.3:
+          prefix_length: 24
+        _mode: strict
