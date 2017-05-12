@@ -5,6 +5,6 @@
 - get_interfaces_ip:
     GigabitEthernet0/0/0/0:
       ipv4:
-        192.168.44.3:
+        192.168.44.2:
           prefix_length: 24
         _mode: strict

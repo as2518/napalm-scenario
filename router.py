@@ -49,31 +49,35 @@ class Router:
         message = ''
 
         if operation_name == 'set_add_interface':
-            template_filename = './set_templates/' + self.os + '/add_interface.jinja2'
-            tamplate_param = operation_param
+            template_filename = './set_templates/' + self.os + '/add_interface.j2'
+            template_param = operation_param
 
         elif operation_name == 'set_add_bgp_neighbor':
-            template_filename = './set_templates/' + self.os + '/add_bgp_neighbor.jinja2'
-            tamplate_param = operation_param
+            template_filename = './set_templates/' + self.os + '/add_bgp_neighbor.j2'
+            template_param = operation_param
 
         elif operation_name == 'set_add_bgp_policy_external':
             template_filename = './set_templates/' + self.os + '/add_bgp_policy_external.jinja2'
-            tamplate_param = operation_param
+            template_param = operation_param
 
         else:
             pass
 
-        # This is only brawsing for check candidate configuration before setting the router.
-        config_txt = self.generate_from_jinja2(
-            template_filename,
-            tamplate_param)
+        try:
+            # This is only brawsing for check candidate configuration before setting the router.
+            config_txt = self.generate_from_jinja2(
+                template_filename,
+                template_param)
 
-        self.device.load_merge_candidate(config=config_txt)
-        #TODO: you can use load_template() instead of load_merge_candidate().
-        #self.device.load_template
+            self.device.load_merge_candidate(config=config_txt)
+            #TODO: you can use load_template() instead of load_merge_candidate().
 
-        message = config_txt
-        result = True
+            message = config_txt
+            result = True
+        except Exception as err:
+            result = False
+            print ("Error : "+str(err))
+            message= str(err)
 
         return result, message
 

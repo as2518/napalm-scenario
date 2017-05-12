@@ -109,6 +109,10 @@ def main():
             else:
                 print(Fore.RED + 'NG')
                 print(Fore.RED + message)
+                print(Fore.RED + 'Config load error! system exit.')
+                router1.discard_config()
+                router1.close()
+                sys.exit()
 
             print('Compare config :')
             message = router1.compare_config()
@@ -120,7 +124,9 @@ def main():
             choice = input().lower()
             if choice == 'y':
                 print('Commit : ', end='')
-                if router1.commit():
+                tmp = router1.commit()
+                print(tmp)
+                if tmp:
                     print(Fore.GREEN + 'OK')
                 else:
                     print(Fore.RED + 'NG')
