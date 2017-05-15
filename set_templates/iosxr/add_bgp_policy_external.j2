@@ -1,0 +1,15 @@
+
+route-policy {{ external_policy_name }}
+  if destination in {{ external_prefix_name }} then
+    set med 0
+    done
+  endif
+  drop
+end-policy
+!
+
+
+prefix-set {{ external_prefix_name }}
+  {{ advertised_route_address_ipv4 }} eq {{ advertised_route_subnet_ipv4 }}
+end-set
+!
