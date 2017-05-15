@@ -44,6 +44,9 @@ class Router:
         else:
             return False, hostname_fetched
 
+    def call_getters(self,func_name):
+        return eval('self.device.'+func_name)()
+
     def load_config(self, operation_name, operation_param=None):
         result = False
         message = ''

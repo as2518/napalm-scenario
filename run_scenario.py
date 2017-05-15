@@ -84,7 +84,6 @@ def main():
                 print(Fore.RED + 'NG')
                 print(Fore.RED + message)
 
-
         elif 'validate' == operation_name:
             print('Test on < %s > : ' % (operation_name))
             result = router1.validate_operation(operation_name)
@@ -94,6 +93,11 @@ def main():
             else:
                 print(Fore.RED + 'NG')
                 #print(Fore.RED + message)
+
+        elif 'get_' in operation_name:
+            print('GET <%s> : '%(operation_name),end='')
+            result = router1.call_getters(operation_name)
+            print(Fore.YELLOW + result)
 
         elif 'set_' in operation_name:
             print('Load config on < %s > : ' % (operation_name), end='')

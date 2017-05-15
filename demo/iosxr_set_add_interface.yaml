@@ -1,5 +1,6 @@
 purpus:  |
-  本作業は、株式会社ABC(AS65002)が運用するルータと、
+  本作業は、株式会社ABC(AS65002)が運用するル
+  ータと、
   拠点Aでプライベートピアを構築することを目的としている。
   経路交換は1経路ずつ受信/送信を行う予定であり、作業による
   ネットワークの影響は軽微であることを想定している。
@@ -16,6 +17,7 @@ hosts:
 scenario:
   - validate:
       interface_name: GigabitEthernet0/0/0/0
+  - get_environment
   - set_add_interface:
       interface_name: GigabitEthernet0/0/0/0
       interface_address_ipv4: 192.168.44.2

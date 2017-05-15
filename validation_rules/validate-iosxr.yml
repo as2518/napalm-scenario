@@ -11,13 +11,13 @@
 
 - get_bgp_neighbors:
     default:
-      router_id: 192.0.2.2
+      router_id: 192.168.100.2
     peers:
       _mode: strict
-      192.0.2.2:
-        is_enabled: true
+      192.168.100.1:
+        is_enabled: false
         address_family:
           ipv4:
-            sent_prefixes: 5
+            sent_prefixes: 0
           ipv6:
-            sent_prefixes: 2
+            sent_prefixes: 0
