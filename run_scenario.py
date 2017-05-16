@@ -46,7 +46,6 @@ def main():
 
     router1 = Router(
         hostname    = param['hosts']['hostname'],
-        model       = param['hosts']['model'],
         os          = param['hosts']['os'],
         ipaddress   = param['hosts']['management_ipaddress'],
         username    = param['hosts']['username'],
@@ -57,7 +56,6 @@ def main():
     print('operator : %s'       % (param['operator']))
     print('operation_date : %d' % (param['operation_date']))
     print('hostname : %s'       % (param['hosts']['hostname']))
-    print('model : %s'          % (param['hosts']['model']))
     print('purpose :')
     print(param['purpus'])
     
@@ -87,6 +85,7 @@ def main():
         elif 'validate' == operation_name:
             print('Test on < %s > : ' % (operation_name))
             result = router1.validate_operation(operation_name)
+            pprint(result)
             if result['complies']:
                 print(Fore.GREEN + 'OK')
                 #print(Fore.GREEN + result[])
@@ -97,7 +96,7 @@ def main():
         elif 'get_' in operation_name:
             print('GET <%s> : '%(operation_name),end='')
             result = router1.call_getters(operation_name)
-            print(Fore.YELLOW + result)
+            pprint(result)
 
         elif 'set_' in operation_name:
             print('Load config on < %s > : ' % (operation_name), end='')
@@ -128,9 +127,7 @@ def main():
             choice = input().lower()
             if choice == 'y':
                 print('Commit : ', end='')
-                tmp = router1.commit()
-                print(tmp)
-                if tmp:
+                if router1.commit() == None:
                     print(Fore.GREEN + 'OK')
                 else:
                     print(Fore.RED + 'NG')

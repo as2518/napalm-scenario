@@ -1,0 +1,14 @@
+purpus:  |
+  validate_test
+operator: Toshiya Mabuchi
+operation_date: 20170510
+hosts:
+  management_ipaddress: 192.168.44.2
+  hostname: iosxrv1
+  os : iosxr
+  username: user1
+  password: password1
+
+scenario:
+  - validate:
+  - get_environment

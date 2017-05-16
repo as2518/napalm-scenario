@@ -1,10 +1,10 @@
-router bgp {{ process_as_number }}
+router bgp {{ local_asnum }}
 neighbor {{ neighbor_ipv4 }}
  description "{{ neighbor_description }}"
  remote-as {{ neighbor_asnum }}
  address-family ipv4 unicast
-  route-policy {{ policy_in_ipv4 }} in
-  route-policy {{ policy_out_ipv4 }} out
+  route-policy {{ policy_name_in_ipv4 }} in
+  route-policy {{ policy_name_out_ipv4 }} out
   send-community-ebgp
   next-hop-self
   remove-private-AS

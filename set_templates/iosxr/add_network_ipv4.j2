@@ -1,0 +1,4 @@
+router bgp {{ local_asnum }}
+ address-family ipv4 unicast
+  network {{ network_ipv4_address }}/{{ network_ipv4_subnet }}
+ !
