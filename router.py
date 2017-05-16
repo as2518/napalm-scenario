@@ -1,6 +1,3 @@
-#! /usr/bin/env python
-# -*- coding: utf-8 -*-
-
 # Jinja2 Template Engine
 from jinja2 import Template, Environment
 

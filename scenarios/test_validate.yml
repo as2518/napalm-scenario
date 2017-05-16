@@ -11,4 +11,4 @@ hosts:
 
 scenario:
   - validate:
-  - get_environment
+  #- get_environment
