@@ -1,4 +1,4 @@
-router bgp 65001
+router bgp {{ local_asnum }}
  address-family ipv6 unicast
-  network {{ network_ipv6_address }}/{{ network_ipv6_subnet }}
+  network {{ network_address }}/{{ network_subnet }}
  !

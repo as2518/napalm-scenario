@@ -1,0 +1,13 @@
+policy-options {
+    policy-statement {{ policy_name_out }} {
+        term 10 {
+            from {
+                route-filter {{ advertised_route_address }}/{{ advertised_route_subnet }} exact;
+            }
+            then accept;
+        }
+        term 999 {
+            then reject;
+        }
+    }
+}

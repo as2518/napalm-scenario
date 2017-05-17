@@ -47,19 +47,17 @@ class Router:
         result = False
         message = ''
 
-        if operation_name == 'set_add_interface':
-            template_filename = './set_templates/' + self.os + '/add_interface.j2'
+        if operation_name == 'set_add_interface_ipv4':
+            template_filename = './set_templates/' + self.os + '/add_interface_ipv4.j2'
             template_param = operation_param
         elif operation_name == 'set_add_network_ipv4':
             template_filename = './set_templates/' + self.os + '/add_network_ipv4.j2'
             template_param = operation_param
-
         elif operation_name == 'set_add_bgp_neighbor_ipv4':
             template_filename = './set_templates/' + self.os + '/add_bgp_neighbor_ipv4.j2'
             template_param = operation_param
-
-        elif operation_name == 'set_add_bgp_policy':
-            template_filename = './set_templates/' + self.os + '/add_bgp_policy.j2'
+        elif operation_name == 'set_add_bgp_policy_ipv4':
+            template_filename = './set_templates/' + self.os + '/add_bgp_policy_ipv4.j2'
             template_param = operation_param
 
         else:

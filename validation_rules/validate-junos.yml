@@ -1,0 +1,26 @@
+---
+- get_facts:
+    os_version: 12.1X47-D20.7
+    hostname: firefly1
+- get_environment:
+    memory:
+      available_ram: '<15.0'
+    cpu:
+      0/RP0/CPU0:
+        '%usage': '<10.0'
+- get_interfaces_ip:
+   ge-0/0/1:
+     ipv4:
+       192.168.44.2:
+         prefix_length: 24
+       _mode: strict
+- get_bgp_neighbors:
+   peers:
+     _mode: strict
+     192.168.100.2:
+       is_enabled: false
+       address_family:
+         ipv4:
+           sent_prefixes: 0
+         ipv6:
+           sent_prefixes: 0

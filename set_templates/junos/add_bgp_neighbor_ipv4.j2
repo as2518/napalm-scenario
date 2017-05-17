@@ -1,13 +1,15 @@
 protocols {
     bgp {
-        family inet {
-            unicast;
-        }
         group {{ interface_name }} {
+            family inet {
+                unicast;
+            }
             type external;
-            neighbor {{ neighbor_ipv4 }} {
+            neighbor {{ neighbor }} {
                 description {{ neighbor_description }};
                 peer-as {{ neighbor_asnum }};
+                export {{ policy_name_out }};
+                import {{ policy_name_in }};
             }
         }
     }

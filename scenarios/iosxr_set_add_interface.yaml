@@ -1,4 +1,4 @@
-purpus:  |
+purpus:
   本作業は、株式会社ABC(AS65002)が運用するル
   ータと、
   拠点Aでプライベートピアを構築することを目的としている。
@@ -16,27 +16,27 @@ hosts:
 scenario:
   - validate:
   - get_environment
-  - set_add_interface:
+  - set_add_interface_ipv4:
       interface_name: GigabitEthernet0/0/0/0
-      interface_address_ipv4: 192.168.44.2
-      interface_subnet_ipv4: 24
+      interface_address: 192.168.44.2
+      interface_subnet: 24
       interface_description: AS65002_peer
   - set_add_network_ipv4:
       local_asnum : 65001
-      network_ipv4_address : 192.168.44.0
-      network_ipv4_subnet: 30
+      network_address : 192.168.44.0
+      network_subnet: 30
   - get_bgp_neighbors
-  - set_add_bgp_policy:
+  - set_add_bgp_policy_ipv4:
       policy_name_out: peer-out
       prefix_name_out: aggregate-prefix
-      advertised_route_address_ipv4: 10.10.10.0
-      advertised_route_subnet_ipv4: 24
+      advertised_route_address: 10.10.10.0
+      advertised_route_subnet: 24
   - set_add_bgp_neighbor_ipv4:
       local_asnum : 65001
       neighbor_asnum : 65002
-      neighbor_ipv4: 192.168.100.1
+      neighbor: 192.168.100.1
       neighbor_description: AS65002_peer
-      policy_name_out_ipv4: peer-out
-      policy_name_in_ipv4: accept
+      policy_name_out: peer-out
+      policy_name_in: accept
   - get_bgp_neighbors
   - validate:
