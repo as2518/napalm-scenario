@@ -14,6 +14,7 @@ hosts:
 scenario:
   - validate:
 #  - get_environment
+  - get_bgp_neighbors
   - set_add_interface_ipv4:
       interface_name: ge-0/0/2
       interface_address: 192.168.100.1
@@ -30,7 +31,7 @@ scenario:
       interface_name: ge-0/0/2
       local_asnum : 65002
       neighbor_asnum : 65001
-      neighbor: 192.168.100.1
+      neighbor: 192.168.100.2
       neighbor_description: AS65002_peer
       policy_name_out: peer-out
       policy_name_in: accept

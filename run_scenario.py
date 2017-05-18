@@ -22,9 +22,31 @@ def print_bool_result(binary_result,color_spec):
     else:
         print(eval(color_spec).RED + '[NG]' , end=' ')
 
-def print_validate_error(compare_dict):
-    pass
-    
+def print_validate_fail_detail(compare_object,key=''):
+    """
+    print invalid reason.
+    @params:
+        compare_object - Required : validation result object (result of compliace_report())
+        key            - Optional : dict key of compliance_result
+    """
+    if isinstance(compare_object,dict):
+        for key,dst in compare_object.items():
+            if isinstance(dst,dict):
+                # recursive
+                print_validate_fail_detail(dst,key)
+            elif isinstance(dst,list):
+                for d in dst:
+                    print(' '*9 , end='')
+                    print(Fore.RED + 'invalid reason [{0}] : {1}'.format(key,d))
+    return
+
+def input_judgment(message): 
+    print(Fore.YELLOW + message, end = '(y/n): ')
+    choice = input().lower()
+    if choice == 'y':
+        return True
+    else:
+        return False
 
 def main():
     """main function."""
@@ -85,26 +107,33 @@ def main():
             operation_param = None
 
         if 'validate' == operation_name:
-            print(Back.BLUE+'Pre-Validation Start : {0}'.center(50,'-').format(param['hosts']['hostname']))
+            print(Fore.BLUE+'Pre-Validation Start : {0}'.center(50,'=').format(param['hosts']['hostname']))
             complies_result = router1.validate_operation(operation_name)
-            #pprint(result)
+            #pprint(complies_result)
+            print_bool_result(complies_result['complies'],'Back')
+            print('Validation total result')
             v_index = complies_result.keys()
             for v in v_index:
                 if v.startswith('get_'):
+                    print(' '*4 , end='')
                     print_bool_result(complies_result[v]['complies'],'Fore')
                     print('validate {0}'.format(v))
-            print('-'*20)
-            print_bool_result(complies_result['complies'],'Fore')
-            print('validation total result')
+                    if not complies_result[v]['complies']:
+                        print_validate_fail_detail(complies_result[v])
+            if not complies_result['complies']:
+                if not input_judgment('Validate is fail. Continue?'):
+                    router1.discard_config()
+                    router1.close()
+                    sys.exit()
 
         elif 'get_' in operation_name:
-            print(Back.BLUE+'Get and show command : {0}'.center(50,'-').format(param['hosts']['hostname']))
+            print(Fore.BLUE+'Get and show command : {0}'.center(50,'=').format(param['hosts']['hostname']))
             print('GET <%s> : '%(operation_name))
             result = router1.call_getters(operation_name)
             pprint(result)
 
         elif 'set_' in operation_name:
-            print(Back.BLUE+'Set Config : {0}'.center(50,'-').format(param['hosts']['hostname']))  
+            print(Fore.BLUE+'Set Config : {0}'.center(50,'=').format(param['hosts']['hostname']))  
             result, message =\
                 router1.load_config(operation_name, operation_param)
             print_bool_result(result,'Fore')
@@ -120,24 +149,21 @@ def main():
                 router1.close()
                 sys.exit()
             
-            print(Back.BLUE+'Compare Config : {0}'.center(50,'-').format(param['hosts']['hostname']))
+            print(Fore.BLUE+'Compare Config : {0}'.center(50,'=').format(param['hosts']['hostname']))
             print('Compare config on < {0} >'.format(operation_name))
             message = router1.compare_config()
             if message != '':
-                print('-'*30)
+                print('-'*50)
                 print(Fore.YELLOW + message)
-                print('-'*30)
-                print(Fore.YELLOW + "Do you commit? (y/n) : ", end = '')
-                choice = input().lower()
-                if choice == 'y':
+                print('-'*50)
+                if input_judgment('Do you commit?'):
                     print_bool_result(router1.commit(),'Fore')
                     print('Commit config')
                 else:
                     print_bool_result(router1.discard_config(),'Fore')
-                    print('Discard config : ')
+                    print('Discard config')
             else:
-                print(Fore.YELLOW+'[INFO]',end='')
-                print(' No changes this router by {0} config'.format(operation_name))
+                print(Fore.YELLOW+'[INFO] No changes this router by {0} config'.format(operation_name))
 
         elif operation_name == 'sleep_10sec':
             print('Sleep 10 sec : ', end='')
@@ -151,7 +177,7 @@ def main():
     router1.close()
     
 
-    print('########## End Senario : ' + args.file + ' ##########')
+    print(Fore.BLUE+'########## End Senario : ' + args.file + ' ##########')
 
 if __name__ == '__main__':
     main()
