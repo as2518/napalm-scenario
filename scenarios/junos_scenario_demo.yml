@@ -13,25 +13,25 @@ hosts:
   password: password1
 scenario:
   - validate:
-  - get_environment
+#  - get_environment
   - set_add_interface_ipv4:
       interface_name: ge-0/0/2
-      interface_address_ipv4: 192.168.44.1
-      interface_subnet_ipv4: 30
+      interface_address: 192.168.100.1
+      interface_subnet: 30
       interface_description: AS65001_peer
+  - sleep_10sec
   - set_add_bgp_policy_ipv4:
       policy_name_out: peer-out
       prefix_name_out: aggregate-prefix
       advertised_route_address: 10.20.20.0
       advertised_route_subnet: 24
-  - get_bgp_neighbors
+  - sleep_10sec
   - set_add_bgp_neighbor_ipv4:
       interface_name: ge-0/0/2
-      local_asnum : 65001
-      neighbor_asnum : 65002
+      local_asnum : 65002
+      neighbor_asnum : 65001
       neighbor: 192.168.100.1
       neighbor_description: AS65002_peer
       policy_name_out: peer-out
       policy_name_in: accept
-  - get_bgp_neighbors
   - validate:

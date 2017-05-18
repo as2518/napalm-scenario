@@ -17,20 +17,26 @@ class Router:
         self.driver = napalm.get_network_driver(self.os)
         self.device = self.driver(hostname=ipaddress, username=username, password=password)
 
+
     def open(self):
         self.device.open()
+
 
     def close(self):
         self.device.close()
 
+
     def commit(self):
         return self.device.commit_config()
+
 
     def discard_config(self):
         return self.device.discard_config()
 
+
     def compare_config(self):
         return self.device.compare_config()
+
 
     def check_hostname(self):
         hostname_fetched = self.device.get_facts()['hostname']
@@ -40,8 +46,10 @@ class Router:
         else:
             return False, hostname_fetched
 
+
     def call_getters(self,func_name):
         return eval('self.device.'+func_name)()
+
 
     def load_config(self, operation_name, operation_param=None):
         result = False
@@ -59,7 +67,6 @@ class Router:
         elif operation_name == 'set_add_bgp_policy_ipv4':
             template_filename = './set_templates/' + self.os + '/add_bgp_policy_ipv4.j2'
             template_param = operation_param
-
         else:
             pass
 
@@ -68,7 +75,7 @@ class Router:
             config_txt = self.generate_from_jinja2(
                 template_filename,
                 template_param)
-
+            #print(config_txt) #debug point
             self.device.load_merge_candidate(config=config_txt)
             #TODO: you can use load_template() instead of load_merge_candidate().
 
@@ -78,15 +85,14 @@ class Router:
             result = False
             print ("Error : "+str(err))
             message= str(err)
-
         return result, message
 
 
     def validate_operation(self, validation_name , validation_param=None):
         rule_filename = './validation_rules/validate-' + self.os + '.yml'
         result = self.device.compliance_report(rule_filename)
-
         return result
+
 
     def generate_from_jinja2(self, template_filename, template_param):
         # read template file (jinja2 format)
