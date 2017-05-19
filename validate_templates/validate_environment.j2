@@ -1,0 +1,8 @@
+ - get_environment:
+     memory:
+       available_ram: '<15.0'
+     cpu:
+       {% for card_cpu in cards_cpu %}
+       0/RP0/CPU0:
+         '%usage': '<10.0'
+       {% endfor %}

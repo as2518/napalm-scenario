@@ -14,7 +14,7 @@ hosts:
 scenario:
   - validate:
 #  - get_environment
-  - get_bgp_neighbors
+#  - get_bgp_neighbors
   - set_add_interface_ipv4:
       interface_name: ge-0/0/2
       interface_address: 192.168.100.1

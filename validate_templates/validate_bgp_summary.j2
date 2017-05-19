@@ -1,0 +1,13 @@
+- get_bgp_neighbors:
+   global:
+    {{ peee-group }}:
+      _mode: strict
+      {% for neighbor in neighbors -%}
+      {{:
+        is_enabled: True
+        is_up: True
+        address_family:
+           ipv4:
+             sent_prefixes: {{advertise_ipv4}}
+           ipv6:
+             sent_prefixes: {{advertise_ipv6}}

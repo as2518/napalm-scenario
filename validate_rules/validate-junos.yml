@@ -20,9 +20,9 @@
       _mode: strict
       192.168.100.2:
         is_enabled: True
-        is_up: False
-        # address_family:
-        #   ipv4:
-        #     sent_prefixes: 0
+        is_up: True
+        address_family:
+           ipv4:
+             sent_prefixes: 1
         #   ipv6:
         #     sent_prefixes: 0

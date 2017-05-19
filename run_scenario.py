@@ -175,7 +175,6 @@ def main():
 
     print('Close the connection to ' + param['hosts']['hostname'])
     router1.close()
-    
 
     print(Fore.BLUE+'########## End Senario : ' + args.file + ' ##########')
 
