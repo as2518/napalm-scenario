@@ -3,11 +3,15 @@
     {{ peee-group }}:
       _mode: strict
       {% for neighbor in neighbors -%}
-      {{:
+      {{ neighbor.neighbor_address }}
         is_enabled: True
         is_up: True
         address_family:
+        {% if neighbor.ip_protocol == 4 -%}
            ipv4:
-             sent_prefixes: {{advertise_ipv4}}
+             sent_prefixes: {{advertise_prefixes_ipv4}}
+        {% elif neighbor.ip_protocol == 6 -%}
            ipv6:
-             sent_prefixes: {{advertise_ipv6}}
+             sent_prefixes: {{advertise_prefixes_ipv6}}
+        {% endif -%}
+      {{% endfor -%}}

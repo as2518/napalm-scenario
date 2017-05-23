@@ -22,7 +22,7 @@
         is_enabled: True
         is_up: True
         address_family:
-           ipv4:
-             sent_prefixes: 1
+          ipv4:
+            sent_prefixes: 1
         #   ipv6:
         #     sent_prefixes: 0

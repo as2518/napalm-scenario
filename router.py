@@ -89,7 +89,7 @@ class Router:
 
 
     def validate_operation(self, validation_name , validation_param=None):
-        rule_filename = './validation_rules/validate-' + self.os + '.yml'
+        rule_filename = './validate_rules/validate-' + self.os + '.yml'
         result = self.device.compliance_report(rule_filename)
         return result
 

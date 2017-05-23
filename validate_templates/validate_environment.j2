@@ -1,8 +1,8 @@
  - get_environment:
      memory:
-       available_ram: '<15.0'
+       available_ram: '>{{ memory_util_rate }}'
      cpu:
-       {% for card_cpu in cards_cpu %}
+       {% for card_cpu in cards_cpu -%}
        0/RP0/CPU0:
-         '%usage': '<10.0'
-       {% endfor %}
+         '%usage': '<{{ card_cpu.cpu_util_rate }}'
+       {% endfor -%}

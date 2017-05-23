@@ -1,0 +1,6 @@
+- get_interfaces
+    {% for interface in interfaces -%}
+    {{ interface.interface }}:
+        is_enabled: True
+        is_up: True
+    {% endfor -%}
