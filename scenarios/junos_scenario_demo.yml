@@ -13,20 +13,21 @@ hosts:
   password: password1
 scenario:
   - validate:
-      facts:
+      - facts:
           version: 12.1X47-D20.7
           hostname: firefly1
-      bgp_neighbor:
+      - bgp_neighbor:
         - neighbor_address: 192.168.100.2
           ip_protocol: 4
           advertise_prefixes: 0
         # - neighbor_address: 192.168.33.2
         #   ip_protocol: 4
         #   advertise_prefixes: 0
-      interface:
-        - interface_name: Te0/0/0/0   
-  # - get_environment
-  # - get_bgp_neighbors
+      # interface:
+      #   - interface_name: ge-0/0/2
+      # - interface_all:
+      # - environment:
+
   # - get_route_to: 
   #     destination: 192.168.100.0/30
   - set_add_interface_ipv4:
@@ -49,4 +50,3 @@ scenario:
       neighbor_description: AS65002_peer
       policy_name_out: peer-out
       policy_name_in: accept
-  - validate:

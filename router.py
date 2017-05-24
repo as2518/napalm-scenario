@@ -90,9 +90,9 @@ class Router:
 
     def validate_operation(self, validate_dst):
         base_str = ''
-        for dst,param in validate_dst.items():
-            rule_path='./validate_templates/validate_'+dst+'.j2'
-            base_str += self.generate_from_jinja2(rule_path,{dst:param})
+        for validate_oper in validate_dst:
+            rule_path='./validate_templates/validate_'+list(validate_oper.keys())[0]+'.j2'
+            base_str += self.generate_from_jinja2(rule_path,validate_oper)
         yml_path = self.save_as_yml(base_str,'./validate_rules')
         return self.device.compliance_report(yml_path)
 

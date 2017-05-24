@@ -38,7 +38,11 @@ def print_validate_fail_detail(compare_object,key=''):
                 for d in dst:
                     print(' '*9 , end='')
                     print(Fore.RED + 'invalid reason [{0}] : {1}'.format(key,d))
+            elif (isinstance(dst,int)) and not (isinstance(dst,bool)):
+                print(' '*9 , end='')
+                print(Fore.RED + 'invalid reason [{0}] : {1}'.format(key,dst))             
     return
+
 
 
 def input_judgment(message): 
@@ -115,7 +119,7 @@ def main():
             else:
                 complies_result = router1.validate_operation({operation_name:None})
 
-            pprint(complies_result)
+            #pprint(complies_result)
 
             print_bool_result(complies_result['complies'],'Back')
             print('Validation total result')

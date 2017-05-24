@@ -11,10 +11,3 @@
         address_family:
           ipv4:
             sent_prefixes: 0
-      
-      192.168.33.2:
-        is_enabled: True
-        is_up: True
-        address_family:
-          ipv4:
-            sent_prefixes: 0
