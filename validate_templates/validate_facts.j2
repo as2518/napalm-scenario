@@ -1,6 +1,7 @@
 - get_facts:
-    {% if 'version' in facts.keys() -%}
+{%- if 'version' in facts %}
     os_version: {{ facts.version }}
-    {% elif 'hostname' in facts.keys() -%}
+{%- endif %}
+{%- if 'hostname' in facts %}
     hostname: {{ facts.hostname }}
-    {% endif -%}
+{% endif %}

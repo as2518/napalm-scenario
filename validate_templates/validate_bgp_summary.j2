@@ -1,6 +1,6 @@
 - get_bgp_neighbors:
    global:
-    {{ peee-group }}:
+    {{ peer_group }}:
       _mode: strict
       {% for neighbor in neighbors -%}
       {{ neighbor.neighbor_address }}

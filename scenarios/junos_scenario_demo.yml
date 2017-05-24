@@ -13,8 +13,22 @@ hosts:
   password: password1
 scenario:
   - validate:
-#  - get_environment
-#  - get_bgp_neighbors
+      facts:
+          version: 12.1X47-D20.7
+          hostname: firefly1
+      bgp_neighbor:
+        - neighbor_address: 192.168.100.2
+          ip_protocol: 4
+          advertise_prefixes: 0
+        # - neighbor_address: 192.168.33.2
+        #   ip_protocol: 4
+        #   advertise_prefixes: 0
+      interface:
+        - interface_name: Te0/0/0/0   
+  # - get_environment
+  # - get_bgp_neighbors
+  # - get_route_to: 
+  #     destination: 192.168.100.0/30
   - set_add_interface_ipv4:
       interface_name: ge-0/0/2
       interface_address: 192.168.100.1

@@ -40,6 +40,7 @@ def print_validate_fail_detail(compare_object,key=''):
                     print(Fore.RED + 'invalid reason [{0}] : {1}'.format(key,d))
     return
 
+
 def input_judgment(message): 
     print(Fore.YELLOW + message, end = '(y/n): ')
     choice = input().lower()
@@ -47,6 +48,7 @@ def input_judgment(message):
         return True
     else:
         return False
+
 
 def main():
     """main function."""
@@ -108,8 +110,13 @@ def main():
 
         if 'validate' == operation_name:
             print(Fore.BLUE+'Pre-Validation Start : {0}'.center(50,'=').format(param['hosts']['hostname']))
-            complies_result = router1.validate_operation(operation_name)
-            #pprint(complies_result)
+            if operation_param:
+                complies_result = router1.validate_operation(operation_param)
+            else:
+                complies_result = router1.validate_operation({operation_name:None})
+
+            pprint(complies_result)
+
             print_bool_result(complies_result['complies'],'Back')
             print('Validation total result')
             v_index = complies_result.keys()

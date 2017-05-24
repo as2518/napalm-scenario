@@ -88,12 +88,21 @@ class Router:
         return result, message
 
 
-    def validate_operation(self, validation_name , validation_param=None):
-        rule_filename = './validate_rules/validate-' + self.os + '.yml'
-        result = self.device.compliance_report(rule_filename)
-        return result
+    def validate_operation(self, validate_dst):
+        base_str = ''
+        for dst,param in validate_dst.items():
+            rule_path='./validate_templates/validate_'+dst+'.j2'
+            base_str += self.generate_from_jinja2(rule_path,{dst:param})
+        yml_path = self.save_as_yml(base_str,'./validate_rules')
+        return self.device.compliance_report(yml_path)
 
-
+    def save_as_yml(self,yml_data,save_dir):
+        save_filepath = save_dir+'/validate_rule.yml'
+        with open(save_filepath, 'w') as f:
+            f.write(yml_data)
+            f.close
+        return save_filepath
+    
     def generate_from_jinja2(self, template_filename, template_param):
         # read template file (jinja2 format)
         with open(template_filename, 'r') as f:
