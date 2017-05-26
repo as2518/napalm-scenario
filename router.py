@@ -1,10 +1,13 @@
 # Jinja2 Template Engine
 from jinja2 import Template, Environment
-
 import napalm
-
 # arranged print
 from pprint import pprint, pformat
+
+#Define Const
+VALIDATE_TEMPLATE_PATH = './validate_templates/validate_'
+VALIDATE_RULE_PATH = './validate_rules'
+INTERFACE = 'interface'
 
 
 class Router:
@@ -91,10 +94,31 @@ class Router:
     def validate_operation(self, validate_dst):
         base_str = ''
         for validate_oper in validate_dst:
-            rule_path='./validate_templates/validate_'+list(validate_oper.keys())[0]+'.j2'
-            base_str += self.generate_from_jinja2(rule_path,validate_oper)
-        yml_path = self.save_as_yml(base_str,'./validate_rules')
+            validate_filename = list(validate_oper.keys())[0]
+            rule_path=VALIDATE_TEMPLATE_PATH+validate_filename+'.j2'
+            temp_param = self.allocate_validation_param(validate_filename,validate_oper)
+            base_str += self.generate_from_jinja2(rule_path,temp_param)
+        yml_path = self.save_as_yml(base_str,VALIDATE_RULE_PATH)
         return self.device.compliance_report(yml_path)
+
+
+    def allocate_validation_param(self,oper_name ,oper_dict):
+        if oper_name in 'interfaces':
+            facts_result = self.call_getters('get_facts')
+            for v in facts_result['interface_list']:
+                oper_dict[oper_name]['interfaces']['interface_name'] = v
+            return oper_dict
+
+        #Coding now
+        elif oper_name in 'environment':
+            env_result = self.call_getters('get_environment')
+            for v_order in oper_dict[oper_name].keys():
+                if v_order in 'cpu':
+                    pass
+                if v_order in 'memory':
+                    pass
+
+            return env_result 
 
     def save_as_yml(self,yml_data,save_dir):
         save_filepath = save_dir+'/validate_rule.yml'
