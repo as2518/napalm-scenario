@@ -11,3 +11,79 @@
         address_family:
           ipv4:
             sent_prefixes: 0
+- get_interfaces:
+    ge-0/0/0:
+        is_enabled: True
+        is_up: True
+    gr-0/0/0:
+        is_enabled: True
+        is_up: True
+    ip-0/0/0:
+        is_enabled: True
+        is_up: True
+    lsq-0/0/0:
+        is_enabled: True
+        is_up: True
+    lt-0/0/0:
+        is_enabled: True
+        is_up: True
+    mt-0/0/0:
+        is_enabled: True
+        is_up: True
+    sp-0/0/0:
+        is_enabled: True
+        is_up: True
+    ge-0/0/1:
+        is_enabled: True
+        is_up: True
+    ge-0/0/2:
+        is_enabled: True
+        is_up: True
+    .local.:
+        is_enabled: True
+        is_up: True
+    dsc:
+        is_enabled: True
+        is_up: True
+    gre:
+        is_enabled: True
+        is_up: True
+    ipip:
+        is_enabled: True
+        is_up: True
+    irb:
+        is_enabled: True
+        is_up: True
+    lo0:
+        is_enabled: True
+        is_up: True
+    lsi:
+        is_enabled: True
+        is_up: True
+    mtun:
+        is_enabled: True
+        is_up: True
+    pimd:
+        is_enabled: True
+        is_up: True
+    pime:
+        is_enabled: True
+        is_up: True
+    pp0:
+        is_enabled: True
+        is_up: True
+    ppd0:
+        is_enabled: True
+        is_up: True
+    ppe0:
+        is_enabled: True
+        is_up: True
+    st0:
+        is_enabled: True
+        is_up: True
+    tap:
+        is_enabled: True
+        is_up: True
+    vlan:
+        is_enabled: True
+        is_up: True

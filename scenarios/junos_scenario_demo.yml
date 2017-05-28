@@ -26,9 +26,9 @@ scenario:
       # interface:
       #   - interface_name: ge-0/0/2
       - interfaces
-      - environment:
-          cpu_maxrate: '<20.0'
-          memory_maxrate : '<40.0'
+      # - environment:
+      #     cpu_maxrate: '<20.0'
+      #     memory_maxrate : '<40.0'
 
   # - get_route_to: 
   #     destination: 192.168.100.0/30

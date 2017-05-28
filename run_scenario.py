@@ -33,16 +33,17 @@ def print_validate_fail_detail(compare_object,key=''):
         for key,dst in compare_object.items():
             if isinstance(dst,dict):
                 # recursive
-                print_validate_fail_detail(dst,key)
+                reason,result = print_validate_fail_detail(dst,key)
+                if not reason == None:
+                    print(' '*9 , end='')
+                    print(Fore.RED + 'INVALID! [type:{0}] {1} : {2}'.format(key,reason,result))
             elif isinstance(dst,list):
                 for d in dst:
-                    print(' '*9 , end='')
-                    print(Fore.RED + 'invalid reason [{0}] : {1}'.format(key,d))
-            elif (isinstance(dst,int)) and not (isinstance(dst,bool)):
-                print(' '*9 , end='')
-                print(Fore.RED + 'invalid reason [{0}] : {1}'.format(key,dst))             
-    return
-
+                    return key,d
+            elif isinstance(dst,int):
+                if not (isinstance(dst,bool)) or (key == 'actual_value'):
+                    return key,dst
+    return None,None
 
 
 def input_judgment(message): 
