@@ -1,13 +1,9 @@
 # Jinja2 Template Engine
 from jinja2 import Template, Environment
 import napalm
+import const
 # arranged print
 from pprint import pprint, pformat
-
-#Define Const
-VALIDATE_TEMPLATE_PATH = './validate_templates/validate_'
-VALIDATE_RULE_PATH = './validate_rules'
-INTERFACE = 'interface'
 
 
 class Router:
@@ -50,8 +46,11 @@ class Router:
             return False, hostname_fetched
 
 
-    def call_getters(self,func_name):
-        return eval('self.device.'+func_name)()
+    def call_getters(self,func_name,extra_param=None):
+        if extra_param == None:
+            return eval('self.device.'+func_name)()
+        else:
+            return eval('self.device.'+func_name)(extra_param)
 
 
     def load_config(self, operation_name, operation_param=None):
@@ -98,19 +97,23 @@ class Router:
                 validate_filename = list(validate_oper.keys())[0]
             else:
                 validate_filename = validate_oper
-            rule_path=VALIDATE_TEMPLATE_PATH+validate_filename+'.j2'
+            rule_path=const.VALIDATE_TEMPLATE_PATH+validate_filename+'.j2'
             temp_param = self.allocate_validation_param(validate_filename,validate_oper)
             base_str += self.generate_from_jinja2(rule_path,temp_param)
-        yml_path = self.save_as_yml(base_str,VALIDATE_RULE_PATH)
+        yml_path = self.save_as_yml(base_str,const.VALIDATE_RULE_PATH)
         return self.device.compliance_report(yml_path)
 
 
     def allocate_validation_param(self,oper_name ,oper_dict):
         if oper_name in 'interfaces':
-            ifvalid_list = {'interfaces':{}}
+            ifvalidate_list = {'interfaces':{'interfaces_name':[]}}
             facts_result = self.call_getters('get_facts')
-            ifvalid_list['interfaces']['interfaces_name'] = facts_result['interface_list']
-            return ifvalid_list
+
+            for if_name in facts_result['interface_list'] :
+                for if_prefix in const.IF_PLEFIX_LIST[self.os]:
+                    if if_name.startswith(if_prefix):
+                        ifvalidate_list['interfaces']['interfaces_name'].append(if_name)
+            return ifvalidate_list
 
         elif oper_name in 'environment':
             env_result = self.call_getters('get_environment')
@@ -121,12 +124,16 @@ class Router:
                     pass
             return env_result 
 
+        elif oper_name in 'bgp_summary':
+            bgp_result = self.call_getters('get_bgp_neighbors')
+            return {'bgp_neighbor' : list(bgp_result['global']['peers'].keys())}
+
         else:
             return oper_dict
         
 
     def save_as_yml(self,yml_data,save_dir):
-        save_filepath = save_dir+'/validate_rule.yml'
+        save_filepath = save_dir+const.VALIDATE_RULE_FILENAME
         with open(save_filepath, 'w') as f:
             f.write(yml_data)
             f.close

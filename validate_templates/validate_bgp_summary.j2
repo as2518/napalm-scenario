@@ -1,9 +1,9 @@
 - get_bgp_neighbors:
    global:
-    {{ peer_group }}:
+    peers:
       _mode: strict
-      {% for neighbor in neighbors -%}
-      {{ neighbor.neighbor_address }}
+{%- for neighbor_address in bgp_neighbor %}      
+      {{ neighbor_address }}:
         is_enabled: True
         is_up: True
-      {{% endfor -%}}
+{% endfor %}

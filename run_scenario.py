@@ -141,7 +141,7 @@ def main():
         elif 'get_' in operation_name:
             print(Fore.BLUE+'Get and show command : {0}'.center(50,'=').format(param['hosts']['hostname']))
             print('GET <%s> : '%(operation_name))
-            result = router1.call_getters(operation_name)
+            result = router1.call_getters(operation_name,operation_param)
             pprint(result)
 
         elif 'set_' in operation_name:

@@ -16,22 +16,21 @@ scenario:
       - facts:
           version: 12.1X47-D20.7
           hostname: firefly1
+      - bgp_summary
       - bgp_neighbor:
         - neighbor_address: 192.168.100.2
           ip_protocol: 4
           advertise_prefixes: 0
-        # - neighbor_address: 192.168.33.2
-        #   ip_protocol: 4
-        #   advertise_prefixes: 0
-      # interface:
-      #   - interface_name: ge-0/0/2
-      - interfaces
-      # - environment:
-      #     cpu_maxrate: '<20.0'
-      #     memory_maxrate : '<40.0'
+        - neighbor_address: 192.168.33.2
+          ip_protocol: 4
+          advertise_prefixes: 0
+      - interfaces :
+          admin: True
+          physical: False 
+    #   - environment:
+    #       cpu_maxrate: '<20.0'
+    #       memory_maxrate : '<40.0'
 
-  # - get_route_to: 
-  #     destination: 192.168.100.0/30
   - set_add_interface_ipv4:
       interface_name: ge-0/0/2
       interface_address: 192.168.100.1
