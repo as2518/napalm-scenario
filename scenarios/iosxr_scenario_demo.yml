@@ -12,14 +12,13 @@ hosts:
   username: user1
   password: password1
 scenario:
-  - get_environment
   - validate:
       - facts:
           version: 6.2.1.23I
           hostname: iosxrv1
       - bgp_summary
       - bgp_neighbor:
-        - neighbor_address: 192.168.100.2
+        - neighbor_address: 192.168.100.1
           ip_protocol: 4
           advertise_prefixes: 0
         # - neighbor_address: 192.168.33.2
@@ -28,9 +27,9 @@ scenario:
       - interfaces:
           admin: True
           physical: False 
-      # - environment:
-      #     cpu_maxrate: '<20.0'
-      #     memory_maxrate : '<40.0'
+      - environment:
+          cpu_maxrate: '20.0'
+          memory_maxrate : '40.0'
   - set_add_interface_ipv4:
       interface_name: GigabitEthernet0/0/0/1
       interface_address: 192.168.100.2

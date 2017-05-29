@@ -109,20 +109,29 @@ class Router:
             ifvalidate_list = {'interfaces':{'interfaces_name':[]}}
             facts_result = self.call_getters('get_facts')
 
-            for if_name in facts_result['interface_list'] :
+            for if_name in facts_result['interface_list']:
                 for if_prefix in const.IF_PLEFIX_LIST[self.os]:
                     if if_name.startswith(if_prefix):
                         ifvalidate_list['interfaces']['interfaces_name'].append(if_name)
             return ifvalidate_list
 
         elif oper_name in 'environment':
+            envvalidate_param = {'cards':[]}
             env_result = self.call_getters('get_environment')
-            for v_order in oper_dict[oper_name].keys():
-                if v_order in 'cpu':
+            for env_order, env_param in env_result.items():
+                if env_order in 'cpu':
+                    for card_name in env_param.keys():
+                        envvalidate_param['cards'].append({
+                            'card_name'  : card_name,
+                            'cpu_maxrate':oper_dict['environment']['cpu_maxrate']
+                        })
+                elif env_order in 'memory':
+                    envvalidate_param['memory_maxrate'] = oper_dict['environment']['memory_maxrate']
+                elif env_order in 'fans':
                     pass
-                if v_order in 'memory':
+                elif env_order in 'temperature':
                     pass
-            return env_result 
+            return envvalidate_param
 
         elif oper_name in 'bgp_summary':
             bgp_result = self.call_getters('get_bgp_neighbors')
