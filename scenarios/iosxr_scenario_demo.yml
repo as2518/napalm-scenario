@@ -21,9 +21,6 @@ scenario:
         - neighbor_address: 192.168.100.1
           ip_protocol: 4
           advertise_prefixes: 0
-        # - neighbor_address: 192.168.33.2
-        #   ip_protocol: 4
-        #   advertise_prefixes: 0
       - interfaces:
           admin: True
           physical: False 
@@ -37,8 +34,8 @@ scenario:
       interface_description: AS65002_peer
   - set_add_network_ipv4:
       local_asnum : 65001
-      network_address : 192.168.44.0
-      network_subnet: 30
+      network_address : 10.30.30.0
+      network_subnet: 24
   - set_add_bgp_policy_ipv4:
       policy_name_out: peer-out
       prefix_name_out: aggregate-prefix
@@ -51,3 +48,15 @@ scenario:
       neighbor_description: AS65002_peer
       policy_name_out: peer-out
       policy_name_in: accept
+  - validate:
+      - bgp_summary
+      - bgp_neighbor:
+        - neighbor_address: 192.168.100.1
+          ip_protocol: 4
+          advertise_prefixes: 0
+      - interfaces:
+          admin: True
+          physical: False 
+      - environment:
+          cpu_maxrate: 20.0
+          memory_maxrate : 40.0

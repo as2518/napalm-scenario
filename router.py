@@ -123,7 +123,7 @@ class Router:
                     for card_name in env_param.keys():
                         envvalidate_param['cards'].append({
                             'card_name'  : card_name,
-                            'cpu_maxrate':oper_dict['environment']['cpu_maxrate']
+                            'cpu_maxrate': oper_dict['environment']['cpu_maxrate']
                         })
                 elif env_order in 'memory':
                     envvalidate_param['memory_maxrate'] = oper_dict['environment']['memory_maxrate']
