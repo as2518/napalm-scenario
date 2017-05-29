@@ -21,9 +21,9 @@ scenario:
         - neighbor_address: 192.168.100.2
           ip_protocol: 4
           advertise_prefixes: 0
-        - neighbor_address: 192.168.33.2
-          ip_protocol: 4
-          advertise_prefixes: 0
+        # - neighbor_address: 192.168.33.2
+        #   ip_protocol: 4
+        #   advertise_prefixes: 0
       - interfaces :
           admin: True
           physical: False 

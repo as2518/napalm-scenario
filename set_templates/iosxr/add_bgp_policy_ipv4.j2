@@ -8,8 +8,7 @@ route-policy {{ policy_name_out }}
 end-policy
 !
 
-
 prefix-set {{ prefix_name_out }}
-  {{ advertised_route_address_ipv4 }}/{{ advertised_route_subnet_ipv4 }} eq {{ advertised_route_subnet_ipv4 }}
+  {{ advertised_route_address }}/{{ advertised_route_subnet }} eq {{ advertised_route_subnet }}
 end-set
 !

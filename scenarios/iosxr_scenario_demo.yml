@@ -1,31 +1,45 @@
 purpus:
-  本作業は、株式会社ABC(AS65002)が運用するル
-  ータと、
+  本作業は、株式会社ABC(AS65002)が運用するルータと、
   拠点Aでプライベートピアを構築することを目的としている。
   経路交換は1経路ずつ受信/送信を行う予定であり、作業による
   ネットワークの影響は軽微であることを想定している。
-operator: Toshiya Mabuchi
-operation_date: 20170510
+operator: ToshiyaMabuchi
+operation_date: 20161115
 hosts:
   management_ipaddress: 192.168.44.2
   hostname: iosxrv1
   os : iosxr
   username: user1
   password: password1
-
 scenario:
-  - validate:
   - get_environment
+  - validate:
+      - facts:
+          version: 6.2.1.23I
+          hostname: iosxrv1
+      - bgp_summary
+      - bgp_neighbor:
+        - neighbor_address: 192.168.100.2
+          ip_protocol: 4
+          advertise_prefixes: 0
+        # - neighbor_address: 192.168.33.2
+        #   ip_protocol: 4
+        #   advertise_prefixes: 0
+      - interfaces:
+          admin: True
+          physical: False 
+      # - environment:
+      #     cpu_maxrate: '<20.0'
+      #     memory_maxrate : '<40.0'
   - set_add_interface_ipv4:
-      interface_name: GigabitEthernet0/0/0/0
-      interface_address: 192.168.44.2
-      interface_subnet: 24
+      interface_name: GigabitEthernet0/0/0/1
+      interface_address: 192.168.100.2
+      interface_subnet: 30
       interface_description: AS65002_peer
   - set_add_network_ipv4:
       local_asnum : 65001
       network_address : 192.168.44.0
       network_subnet: 30
-  - get_bgp_neighbors
   - set_add_bgp_policy_ipv4:
       policy_name_out: peer-out
       prefix_name_out: aggregate-prefix
@@ -38,5 +52,3 @@ scenario:
       neighbor_description: AS65002_peer
       policy_name_out: peer-out
       policy_name_in: accept
-  - get_bgp_neighbors
-  - validate:

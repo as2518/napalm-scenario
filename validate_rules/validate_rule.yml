@@ -1,11 +1,11 @@
 - get_facts:
-    os_version: 12.1X47-D20.7
-    hostname: firefly1
+    os_version: 6.2.1.23I
+    hostname: iosxrv1
 - get_bgp_neighbors:
    global:
     peers:
       _mode: strict      
-      192.168.100.2:
+      192.168.100.1:
         is_enabled: True
         is_up: True
 - get_bgp_neighbors:
@@ -13,37 +13,15 @@
     peers:
       _mode: strict      
       192.168.100.2:
-        is_enabled: True
-        is_up: True
-        address_family:
-          ipv4:
-            sent_prefixes: 0
-      
-      192.168.33.2:
         is_enabled: True
         is_up: True
         address_family:
           ipv4:
             sent_prefixes: 0
 - get_interfaces:
-    ge-0/0/0:
+    GigabitEthernet0/0/0/0:
         is_enabled: True
         is_up: True
-    gr-0/0/0:
-        is_enabled: True
-        is_up: True
-    ge-0/0/1:
-        is_enabled: True
-        is_up: True
-    ge-0/0/2:
-        is_enabled: True
-        is_up: True
-    ge-0/0/3:
-        is_enabled: True
-        is_up: True
-    gre:
-        is_enabled: True
-        is_up: True
-    lo0:
+    GigabitEthernet0/0/0/1:
         is_enabled: True
         is_up: True
