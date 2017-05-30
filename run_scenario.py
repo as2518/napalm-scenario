@@ -177,10 +177,8 @@ def main():
                 print('-'*30)
             else:
                 print(Back.RED + message)
-                print(Back.RED + 'Config load error! system exit.')
+                print(Back.RED + 'Config load error! Operation is Rollbacked...')
                 rollback_operation(router1,backup_configs['running'])
-                router1.close()
-                sys.exit()
             
             print(Fore.BLUE+'Compare Config : {0}'.center(50,'=').format(param['hosts']['hostname']))
             print('Compare config on < {0} >'.format(operation_name))
@@ -193,7 +191,7 @@ def main():
                     print_bool_result(router1.commit(),'Fore')
                     print('Commit config')
                 else:
-
+                    rollback_operation(router1,backup_configs['running'])
             else:
                 print(Fore.YELLOW+'[INFO] No changes this router by {0} config'.format(operation_name))
 
