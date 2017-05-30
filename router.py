@@ -16,7 +16,6 @@ class Router:
         self.driver = napalm.get_network_driver(self.os)
         self.device = self.driver(hostname=ipaddress, username=username, password=password)
 
-
     def open(self):
         self.device.open()
 
@@ -26,7 +25,12 @@ class Router:
 
 
     def commit(self):
-        return self.device.commit_config()
+        try:
+            self.device.commit_config()
+            commit_result = True
+        except:
+            commit_result = False
+        return commit_result
 
 
     def discard_config(self):
@@ -35,6 +39,15 @@ class Router:
 
     def compare_config(self):
         return self.device.compare_config()
+
+
+    def get_config(self):
+        return self.device.get_config()
+
+
+    def replace(self,config):
+        self.device.load_replace_candidate(config)
+        return True
 
 
     def check_hostname(self):
