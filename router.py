@@ -46,7 +46,7 @@ class Router:
 
 
     def replace(self,config):
-        self.device.load_replace_candidate(config)
+        self.device.load_replace_candidate(config=config)
         return True
 
 
@@ -112,9 +112,10 @@ class Router:
                 validate_filename = validate_oper
             rule_path=const.VALIDATE_TEMPLATE_PATH+validate_filename+'.j2'
             temp_param = self.allocate_validation_param(validate_filename,validate_oper)
-            base_str += self.generate_from_jinja2(rule_path,temp_param)
+            if temp_param:
+                base_str += self.generate_from_jinja2(rule_path,temp_param)
         yml_path = self.save_as_yml(base_str,const.VALIDATE_RULE_PATH)
-        return self.device.compliance_report(yml_path)
+        return self.device.compliance_report(yml_path)    
 
 
     def allocate_validation_param(self,oper_name ,oper_dict):
@@ -141,15 +142,19 @@ class Router:
                 elif env_order in 'memory':
                     envvalidate_param['memory_maxrate'] = oper_dict['environment']['memory_maxrate']
                 elif env_order in 'fans':
+                    #TBD
                     pass
                 elif env_order in 'temperature':
+                    #TBD
                     pass
             return envvalidate_param
 
         elif oper_name in 'bgp_summary':
             bgp_result = self.call_getters('get_bgp_neighbors')
-            return {'bgp_neighbor' : list(bgp_result['global']['peers'].keys())}
-
+            if len(bgp_result) != 0:
+                return{'bgp_neighbor' : list(bgp_result['global']['peers'].keys())}
+            else:
+                return False
         else:
             return oper_dict
         

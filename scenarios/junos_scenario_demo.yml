@@ -2,7 +2,7 @@ purpus:
   本作業は、株式会社ABC(AS65002)が運用するルータと、
   拠点Aでプライベートピアを構築することを目的としている。
   経路交換は1経路ずつ受信/送信を行う予定であり、作業による
-  ネットワークの影響は軽微であることを想定している。
+  ネットワークの影響は軽微である。
 operator: ToshiyaMabuchi
 operation_date: 20161115
 hosts:
@@ -51,3 +51,16 @@ scenario:
       neighbor_description: AS65002_peer
       policy_name_out: peer-out
       policy_name_in: accept
+  - sleep_10sec
+  - validate:
+      - facts:
+          version: 12.1X47-D20.7
+          hostname: firefly1
+      - bgp_summary
+      - bgp_neighbor:
+        - neighbor_address: 192.168.100.2
+          ip_protocol: 4
+          advertise_prefixes: 0
+      - interfaces :
+          admin: True
+          physical: False 

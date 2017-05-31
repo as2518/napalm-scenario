@@ -58,7 +58,7 @@ def rollback_operation(device,config):
     try:
         device.discard_config()
         replace_result = device.replace(config)
-        device_result = device.commit()
+        commit_result = device.commit()
         rollback = replace_result & commit_result
         print_bool_result(rollback,'Fore')
         print('Rollbacked config!')
@@ -68,7 +68,7 @@ def rollback_operation(device,config):
         print(Back.RED + str(err))
 
     finally:
-        router1.close()
+        device.close()
         sys.exit()
 
 def main():
@@ -118,11 +118,10 @@ def main():
     print(param['purpus'])
     
     print('Connect to ' + param['hosts']['hostname'] + ' : ', end='')
-    test = router1.open()
-    print(test)
-    print(Fore.GREEN + 'OK')
+    if not router1.open():
+        print(Fore.GREEN + 'OK')
 
-    backup_configs = router.get_config()
+    backup_configs = router1.get_config()
     if backup_configs:
         print_bool_result(True,'Fore')
     else:
@@ -158,7 +157,7 @@ def main():
                         print_validate_fail_detail(complies_result[v])
             if not complies_result['complies']:
                 if not input_judgment('Validate is fail. Continue?'):
-                    rollback_operation(router1,backup_config)
+                    rollback_operation(router1,backup_configs['running'])
 
         elif 'get_' in operation_name:
             print(Fore.BLUE+'Get and show command : {0}'.center(50,'=').format(param['hosts']['hostname']))

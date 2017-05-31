@@ -1,34 +1,48 @@
 - get_facts:
-    os_version: 6.2.1.23I
-    hostname: iosxrv1
+    os_version: 12.1X47-D20.7
+    hostname: firefly1
 - get_bgp_neighbors:
    global:
     peers:
       _mode: strict      
-      192.168.100.1:
+      192.168.100.2:
         is_enabled: True
         is_up: True
 - get_bgp_neighbors:
    global:
     peers:
       _mode: strict      
-      192.168.100.1:
+      192.168.100.2:
         is_enabled: True
         is_up: True
         address_family:
           ipv4:
             sent_prefixes: 0
 - get_interfaces:
-    GigabitEthernet0/0/0/0:
+    ge-0/0/0:
         is_enabled: True
         is_up: True
 
-    GigabitEthernet0/0/0/1:
+    gr-0/0/0:
         is_enabled: True
         is_up: True
-- get_environment:
-     memory:
-       available_ram: '<40.0'
-     cpu:
-       0/RP0/CPU0:
-         '%usage': '<20.0'
+
+    ge-0/0/1:
+        is_enabled: True
+        is_up: True
+
+    ge-0/0/2:
+        is_enabled: True
+        is_up: True
+
+    ge-0/0/3:
+        is_enabled: True
+        is_up: True
+
+    gre:
+        is_enabled: True
+        is_up: True
+
+    lo0:
+        is_enabled: True
+        is_up: True
