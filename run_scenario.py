@@ -56,6 +56,7 @@ def input_judgment(message):
 
 def rollback_operation(device,config):
     try:
+        device.discard_config()
         replace_result = device.replace(config)
         device_result = device.commit()
         rollback = replace_result & commit_result
