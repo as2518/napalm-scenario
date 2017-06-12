@@ -1,7 +1,9 @@
 - get_environment:
      memory:
        available_ram: '<{{ memory_maxrate }}'
+{%- if cpu %}
      cpu:
+{%- endif %}
 {%- for card in cards %}
        {{ card.card_name }}:
          '%usage': '<{{ card.cpu_maxrate }}'

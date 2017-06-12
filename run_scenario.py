@@ -109,7 +109,7 @@ def main():
         username    = param['hosts']['username'],
         password    = param['hosts']['password'])
 
-    print('########## Run Senario : ' + args.file + ' ##########')
+    print(Fore.BLUE+'########## Run Senario : ' + args.file + ' ##########')
 
     print('operator : %s'       % (param['operator']))
     print('operation_date : %d' % (param['operation_date']))
@@ -117,16 +117,18 @@ def main():
     print('purpose :')
     print(param['purpus'])
     
-    print('Connect to ' + param['hosts']['hostname'] + ' : ', end='')
     if not router1.open():
-        print(Fore.GREEN + 'OK')
-
+        print_bool_result(True,'Fore')
+    else :
+        print_bool_result(False,'Fore')
+    print('Connect to ' + param['hosts']['hostname'])
+    
     backup_configs = router1.get_config()
     if backup_configs:
         print_bool_result(True,'Fore')
     else:
         print_bool_result(False,'Fore')
-    print('save backup config')
+    print('Save backup config')
 
     for scenario_param in param['scenario']:
         if isinstance(scenario_param, dict):
@@ -179,7 +181,7 @@ def main():
                 print(Back.RED + message)
                 print(Back.RED + 'Config load error! Operation is Rollbacked...')
                 rollback_operation(router1,backup_configs['running'])
-            
+
             print(Fore.BLUE+'Compare Config : {0}'.center(50,'=').format(param['hosts']['hostname']))
             print('Compare config on < {0} >'.format(operation_name))
             message = router1.compare_config()
@@ -196,15 +198,28 @@ def main():
                 print(Fore.YELLOW+'[INFO] No changes this router by {0} config'.format(operation_name))
 
         elif operation_name == 'sleep_10sec':
-            print('Sleep 10 sec : ', end='')
-            time.sleep(10)
-            print(Fore.GREEN + 'OK')
+            print_bool_result(True,'Back')
+            print('Sleep 10 sec',end='')
+            for i in range(10):
+                time.sleep(1)
+                if i == 9:
+                    print('.')
+                else:
+                    print('.',end='')
+
+        elif operation_name == 'rollback':
+            rollback_operation(router1,backup_configs['running'])
+            print_bool_result(True,'Back')
+            print('Rollback Config!', end='')
 
         else:
             print('Cannnot run operation : '+Back.RED + operation_name)
-
+    
+    if not router1.close():
+        print_bool_result(True,'Back')
+    else:
+        print_bool_result(False,'Back')
     print('Close the connection to ' + param['hosts']['hostname'])
-    router1.close()
 
     print(Fore.BLUE+'########## End Senario : ' + args.file + ' ##########')
 

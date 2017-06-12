@@ -1,8 +1,8 @@
 purpus:
-  本作業は、株式会社ABC(AS65002)が運用するルータと、
-  拠点Aでプライベートピアを構築することを目的としている。
-  経路交換は1経路ずつ受信/送信を行う予定であり、作業による
-  ネットワークの影響は軽微である。
+    本作業は、株式会社AAA(AS65001)が運用するルータと、
+    拠点Aでプライベートピアを構築することを目的としている。
+    経路交換は1経路ずつ受信/送信を行う予定であり、作業による
+    ネットワークの影響は軽微である。
 operator: ToshiyaMabuchi
 operation_date: 20161115
 hosts:
@@ -17,40 +17,34 @@ scenario:
           version: 12.1X47-D20.7
           hostname: firefly1
       - bgp_summary
-      - bgp_neighbor:
-        - neighbor_address: 192.168.100.2
-          ip_protocol: 4
-          advertise_prefixes: 0
-        # - neighbor_address: 192.168.33.2
-        #   ip_protocol: 4
-        #   advertise_prefixes: 0
       - interfaces :
           admin: True
-          physical: False 
-    #   - environment:
-    #       cpu_maxrate: '<20.0'
-    #       memory_maxrate : '<40.0'
-
+          physical: True
   - set_add_interface_ipv4:
       interface_name: ge-0/0/2
       interface_address: 192.168.100.1
       interface_subnet: 30
-      interface_description: AS65001_peer
-  - sleep_10sec
+      interface_description: DEMO_INTERFACE_CONFIG
   - set_add_bgp_policy_ipv4:
       policy_name_out: peer-out
       prefix_name_out: aggregate-prefix
       advertised_route_address: 10.20.20.0
       advertised_route_subnet: 24
-  - sleep_10sec
   - set_add_bgp_neighbor_ipv4:
       interface_name: ge-0/0/2
       local_asnum : 65002
       neighbor_asnum : 65001
       neighbor: 192.168.100.2
-      neighbor_description: AS65002_peer
+      neighbor_description: DEMO_BGP_PEER_TO_AS65001
       policy_name_out: peer-out
       policy_name_in: accept
+  - validate:
+      - bgp_neighbor:
+        - neighbor_address: 192.168.100.2
+          ip_protocol: 4
+          is_up: True
+          advertise_prefixes: 1
+          receive_prefixes: 1         
   - sleep_10sec
   - validate:
       - facts:
@@ -60,7 +54,9 @@ scenario:
       - bgp_neighbor:
         - neighbor_address: 192.168.100.2
           ip_protocol: 4
-          advertise_prefixes: 0
+          advertise_prefixes: 1
+          receive_prefixes: 1
       - interfaces :
           admin: True
-          physical: False 
+          physical: True
+  #- rollback
