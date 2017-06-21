@@ -5,7 +5,7 @@ Scenario based Network Operation Tool for multi-vendor routers using NAPALM libr
 demo: configuring interface and BGP neighbor setting
  - Left : napalm-scenario tool
  - Right top : target router
- - Right bottom : not target router, BGP neighbor
+ - Right bottom : bgp neighbor(already configured)
 
 <img src="./img/napalm-demo-movie2.gif" width="800px">
 
